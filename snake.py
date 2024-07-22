@@ -42,3 +42,6 @@ def gameLoop():
 
     x1_change = 0
     y1_change = 0
+
+    snake_List = []
+    Length_of_snake = 1
