@@ -55,3 +55,6 @@ def gameLoop():
             dis.fill(blue)
             message("You Lost! Press Q-Quit or C-Play Again", red)
             pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
