@@ -48,3 +48,10 @@ def gameLoop():
 
     foodx = round(random.randrange(0, dis_width - snake_block) / 10.0) * 10.0
     foody = round(random.randrange(0, dis_height - snake_block) / 10.0) * 10.0
+
+    while not game_over:
+
+        while game_close == True:
+            dis.fill(blue)
+            message("You Lost! Press Q-Quit or C-Play Again", red)
+            pygame.display.update()
