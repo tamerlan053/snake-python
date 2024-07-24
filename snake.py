@@ -2,8 +2,10 @@ import pygame
 import time
 import random
 
+# Инициализация Pygame
 pygame.init()
 
+# Определение цветов
 white = (255, 255, 255)
 yellow = (255, 255, 102)
 black = (0, 0, 0)
@@ -11,9 +13,11 @@ red = (213, 50, 80)
 green = (0, 255, 0)
 blue = (50, 153, 213)
 
+# Размеры экрана
 dis_width = 600
 dis_height = 400
 
+# Создание экрана
 dis = pygame.display.set_mode((dis_width, dis_height))
 pygame.display.set_caption('Snake Game')
 
@@ -63,3 +67,7 @@ def gameLoop():
                         game_close = False
                     if event.key == pygame.K_c:
                         gameLoop()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_over = True
