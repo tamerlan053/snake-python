@@ -91,3 +91,5 @@ def gameLoop():
         snake_Head.append(x1)
         snake_Head.append(y1)
         snake_List.append(snake_Head)
+        if len(snake_List) > Length_of_snake:
+            del snake_List[0]
