@@ -97,3 +97,6 @@ def gameLoop():
         for x in snake_List[:-1]:
             if x == snake_Head:
                 game_close = True
+
+        our_snake(snake_block, snake_List)
+        pygame.display.update()
