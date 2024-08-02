@@ -34,6 +34,10 @@ def message(msg, color):
     dis.blit(mesg, [dis_width / 6, dis_height / 3])
 
 def gameLoop():
+    progress = load_progress()
+    score = progress["score"]
+    level = progress["level"]
+    lives = progress["lives"]
     game_over = False
     game_close = False
 
