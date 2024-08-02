@@ -39,6 +39,10 @@ def load_progress():
             return json.load(f)
     return {"score": 0, "level": 1, "lives": 3}
 
+def save_progress(score, level, lives):
+    with open(save_file, 'w') as f:
+        json.dump({"score": score, "level": level, "lives": lives}, f)
+
 def gameLoop():
     progress = load_progress()
     score = progress["score"]
