@@ -33,6 +33,12 @@ def message(msg, color):
     mesg = font_style.render(msg, True, color)
     dis.blit(mesg, [dis_width / 6, dis_height / 3])
 
+def load_progress():
+    if os.path.exists(save_file):
+        with open(save_file, 'r') as f:
+            return json.load(f)
+    return {"score": 0, "level": 1, "lives": 3}
+
 def gameLoop():
     progress = load_progress()
     score = progress["score"]
