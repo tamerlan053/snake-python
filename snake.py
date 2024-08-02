@@ -33,6 +33,10 @@ def message(msg, color):
     mesg = font_style.render(msg, True, color)
     dis.blit(mesg, [dis_width / 6, dis_height / 3])
 
+def show_level(level):
+    value = score_font.render("Level: " + str(level), True, white)
+    dis.blit(value, [0, 35])
+
 def load_progress():
     if os.path.exists(save_file):
         with open(save_file, 'r') as f:
