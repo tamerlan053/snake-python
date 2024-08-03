@@ -1,3 +1,4 @@
+```python
 import pygame
 import time
 import random
@@ -27,6 +28,8 @@ snake_speed = 15
 font_style = pygame.font.SysFont(None, 50)
 score_font = pygame.font.SysFont(None, 35)
 
+save_file = "snake_save.json"
+
 def our_snake(snake_block, snake_list):
     for x in snake_list:
         pygame.draw.rect(dis, black, [x[0], x[1], snake_block, snake_block])
@@ -34,6 +37,10 @@ def our_snake(snake_block, snake_list):
 def message(msg, color):
     mesg = font_style.render(msg, True, color)
     dis.blit(mesg, [dis_width / 6, dis_height / 3])
+
+def show_score(score):
+    value = score_font.render("Score: " + str(score), True, white)
+    dis.blit(value, [0, 0])
 
 def show_level(level):
     value = score_font.render("Level: " + str(level), True, white)
@@ -54,6 +61,7 @@ def gameLoop():
     score = progress["score"]
     level = progress["level"]
     lives = progress["lives"]
+
     game_over = False
     game_close = False
 
@@ -71,7 +79,7 @@ def gameLoop():
 
     while not game_over:
 
-        while game_close == True:
+        while game_close:
             dis.fill(blue)
             message("You Lost! Press Q-Quit or C-Play Again", red)
             pygame.display.update()
@@ -79,6 +87,7 @@ def gameLoop():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
+                        save_progress(score, level, lives)
                         game_over = True
                         game_close = False
                     if event.key == pygame.K_c:
@@ -86,6 +95,7 @@ def gameLoop():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                save_progress(score, level, lives)
                 game_over = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -102,7 +112,17 @@ def gameLoop():
                     x1_change = 0
 
         if x1 >= dis_width or x1 < 0 or y1 >= dis_height or y1 < 0:
-            game_close = True
+            lives -= 1
+            if lives == 0:
+                game_close = True
+            else:
+                x1 = dis_width / 2
+                y1 = dis_height / 2
+                x1_change = 0
+                y1_change = 0
+                snake_List = []
+                Length_of_snake = 1
+
         x1 += x1_change
         y1 += y1_change
         dis.fill(blue)
@@ -116,15 +136,30 @@ def gameLoop():
 
         for x in snake_List[:-1]:
             if x == snake_Head:
-                game_close = True
+                lives -= 1
+                if lives == 0:
+                    game_close = True
+                else:
+                    x1 = dis_width / 2
+                    y1 = dis_height / 2
+                    x1_change = 0
+                    y1_change = 0
+                    snake_List = []
+                    Length_of_snake = 1
 
         our_snake(snake_block, snake_List)
+        show_score(score)
+        show_level(level)
         pygame.display.update()
 
         if x1 == foodx and y1 == foody:
             foodx = round(random.randrange(0, dis_width - snake_block) / 10.0) * 10.0
             foody = round(random.randrange(0, dis_height - snake_block) / 10.0) * 10.0
             Length_of_snake += 1
+            score += 1
+            if score % 10 == 0:
+                level += 1
+                snake_speed += 5
 
         clock.tick(snake_speed)
 
@@ -132,3 +167,4 @@ def gameLoop():
     quit()
 
 gameLoop()
+```
