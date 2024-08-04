@@ -153,6 +153,7 @@ def gameLoop():
         our_snake(snake_block, snake_List)
         show_score(score)
         show_level(level)
+        show_lives(lives)
         pygame.display.update()
 
         if x1 == foodx and y1 == foody:
