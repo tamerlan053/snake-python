@@ -56,9 +56,30 @@ def load_progress():
             return json.load(f)
     return {"score": 0, "level": 1, "lives": 3}
 
-def save_progress(score, level, lives):
+def save_progress(score, level, lives, snake_List, foodx, foody, bonus_foodx, bonus_foody, bonus_timer, x1, y1, x1_change, y1_change):
     with open(save_file, 'w') as f:
-        json.dump({"score": score, "level": level, "lives": lives}, f)
+        json.dump({
+            "score": score,
+            "level": level,
+            "lives": lives,
+            "snake_List": snake_List,
+            "foodx": foodx,
+            "foody": foody,
+            "bonus_foodx": bonus_foodx,
+            "bonus_foody": bonus_foody,
+            "bonus_timer": bonus_timer,
+            "x1": x1,
+            "y1": y1,
+            "x1_change": x1_change,
+            "y1_change": y1_change
+        }, f)
+
+def load_game():
+    if os.path.exists(save_file):
+        with open(save_file, 'r') as f:
+            data = json.load(f)
+            return (data["score"], data["level"], data["lives"], data["snake_List"], data["foodx"], data["foody"], data["bonus_foodx"], data["bonus_foody"], data["bonus_timer"], data["x1"], data["y1"], data["x1_change"], data["y1_change"])
+    return None
 
 def gameLoop():
     progress = load_progress()
@@ -95,7 +116,7 @@ def gameLoop():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
-                        save_progress(score, level, lives)
+                        save_progress(score, level, lives, snake_List, foodx, foody, bonus_foodx, bonus_foody, bonus_timer, x1, y1, x1_change, y1_change)
                         game_over = True
                         game_close = False
                     if event.key == pygame.K_c:
@@ -103,7 +124,7 @@ def gameLoop():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                save_progress(score, level, lives)
+                save_progress(score, level, lives, snake_List, foodx, foody, bonus_foodx, bonus_foody, bonus_timer, x1, y1, x1_change, y1_change)
                 game_over = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -118,6 +139,12 @@ def gameLoop():
                 elif event.key == pygame.K_DOWN:
                     y1_change = snake_block
                     x1_change = 0
+                elif event.key == pygame.K_s:
+                    save_progress(score, level, lives, snake_List, foodx, foody, bonus_foodx, bonus_foody, bonus_timer, x1, y1, x1_change, y1_change)
+                elif event.key == pygame.K_l:
+                    loaded_game = load_game()
+                    if loaded_game:
+                        score, level, lives, snake_List, foodx, foody, bonus_foodx, bonus_foody, bonus_timer, x1, y1, x1_change, y1_change = loaded_game
 
         if x1 >= dis_width or x1 < 0 or y1 >= dis_height or y1 < 0:
             lives -= 1
