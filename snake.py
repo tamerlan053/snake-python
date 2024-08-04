@@ -1,4 +1,3 @@
-```python
 import pygame
 import time
 import random
@@ -45,6 +44,10 @@ def show_score(score):
 def show_level(level):
     value = score_font.render("Level: " + str(level), True, white)
     dis.blit(value, [0, 35])
+
+def show_lives(lives):
+    value = score_font.render("Lives: " + str(lives), True, white)
+    dis.blit(value, [0, 70])
 
 def load_progress():
     if os.path.exists(save_file):
@@ -167,4 +170,3 @@ def gameLoop():
     quit()
 
 gameLoop()
-```
